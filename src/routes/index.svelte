@@ -3,15 +3,69 @@
 
   import GiPopcorn from 'svelte-icons/gi/GiPopcorn.svelte';
   import IoIosMenu from 'svelte-icons/io/IoIosMenu.svelte';
-  import IoIosClose from 'svelte-icons/io/IoIosClose.svelte';
   import IoIosSearch from 'svelte-icons/io/IoIosSearch.svelte';
-  import FaGithub from 'svelte-icons/fa/FaGithub.svelte';
-  import FaRegHeart from 'svelte-icons/fa/FaRegHeart.svelte';
-  import IoIosStats from 'svelte-icons/io/IoIosStats.svelte';
+
+  import { Search } from '$api/api';
+  import SearchResult from '$components/search/SearchResult.svelte';
+  import SideMenu from '$components/navigation/SideMenu.svelte';
+  import Footer from '$components/footer/Footer.svelte';
+
+  // let opacity: number = 0.5,
+  //   delay: number = 300;
+
+  // let query: string = '';
+
+  // const handleSearch = async (): Promise<void> => {
+  //   console.log(query);
+  //   const data = await Search.searchKeyword(query);
+  //   console.log({ data });
+  // };
+
+  let timer: ReturnType<typeof setTimeout>;
+  let debounceDelay: number = 500;
+
+  const debounceSearchRequest = (event) => {
+    clearTimeout(timer);
+    timer = setTimeout(async (): Promise<void> => {
+      let query: string = event.target.value;
+      const data = await Search.searchKeyword(query.trim());
+      console.log({ data });
+    }, debounceDelay);
+  };
+
+  //: Promise<void>
+  const handleKeyUp = async () => {
+    // if (event.charCode === 13) {
+    //   event.preventDefault();
+    //   handleSearch();
+    // }
+    // debounce(query);
+    // if (query.trim().length > 0) {
+    //   const data = await Search.searchKeyword(query);
+    //   console.log({ data });
+    // }
+  };
+
+  // const sample = {
+  //   adult: false,
+  //   backdrop_path: '/eeijXm3553xvuFbkPFkDG6CLCbQ.jpg',
+  //   genre_ids: [878, 12],
+  //   id: 438631,
+  //   media_type: 'movie',
+  //   original_language: 'en',
+  //   original_title: 'Dune',
+  //   overview:
+  //     "Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, must travel to the most dangerous planet in the universe to ensure the future of his family and his people. As malevolent forces explode into conflict over the planet's exclusive supply of the most precious resource in existence-a commodity capable of unlocking humanity's greatest potential-only those who can conquer their fear will survive.",
+  //   popularity: 2911.423,
+  //   poster_path: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg',
+  //   release_date: '2021-09-15',
+  //   title: 'Dune',
+  //   video: false,
+  //   vote_average: 8,
+  //   vote_count: 3632
+  // };
 
   let showMenu: boolean = false;
-  let opacity: number = 0.5,
-    delay: number = 300;
 
   const handleToggleMenu = (): void => {
     showMenu = !showMenu;
@@ -22,58 +76,35 @@
   <title>Home</title>
 </svelte:head>
 
-<header>
-  <div class="home_icon">
-    <GiPopcorn />
-  </div>
-  <div class="icon" on:click={handleToggleMenu} out:fade>
-    {#if showMenu}
-      <IoIosClose />
-    {:else}
+<SideMenu {showMenu} {handleToggleMenu} />
+
+<main>
+  <header>
+    <div class="home_icon">
+      <GiPopcorn />
+    </div>
+    <div class="icon" on:click={handleToggleMenu} out:fade>
       <IoIosMenu />
-    {/if}
-  </div>
-</header>
-<div class="content">
-  {#if showMenu}
-    <nav transition:fly={{ x: -375, opacity, delay }}>
-      <ul>
-        <li>
-          <div class="nav_icon">
-            <FaRegHeart />
-          </div>
-          <p>Favorites</p>
-        </li>
-        <li>
-          <div class="nav_icon">
-            <IoIosStats />
-          </div>
-          <p>Stats</p>
-        </li>
-      </ul>
-    </nav>
-  {:else}
-    <div transition:fly={{ x: 375, opacity, delay }} class="search_container">
-      <div class="icon">
+    </div>
+  </header>
+
+  <div class="search_container" transition:fly={{ x: 375 }}>
+    <form>
+      <div>
         <IoIosSearch />
       </div>
-      <input placeholder="Search movies, tv or stars" />
-    </div>
-  {/if}
-</div>
+      <input
+        on:input={debounceSearchRequest}
+        placeholder="Search movies, tv or stars"
+        type="text"
+      />
+    </form>
+  </div>
 
-<!-- <div class="recommender">
-  <div class="godzilla">godzilla</div>
-  <div class="aa">New releases</div>
-</div> -->
-{#if !showMenu}
-  <footer>
-    <p>about</p>
-    <div class="icon">
-      <FaGithub />
-    </div>
-  </footer>
-{/if}
+  <SearchResult />
+
+  <Footer />
+</main>
 
 <style>
   :global(body) {
@@ -82,6 +113,17 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
+  }
+
+  :global(.icon) {
+    width: 2.5em;
+    height: 2.5em;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.5s;
   }
 
   header {
@@ -105,31 +147,34 @@
     color: darkorange;
   }
 
-  .content {
+  /* SEARCH CONTAINER */
+  .search_container {
     display: grid;
   }
 
-  .content nav,
-  .search_container {
+  .search_container form {
     grid-area: 1/1/2/2;
   }
 
-  .search_container {
+  form {
     position: relative;
+    display: flex;
+    flex-direction: row;
     padding: 0.2em 1em;
     box-sizing: border-box;
   }
 
-  .search_container div {
+  form div {
     position: absolute;
     color: gray;
-    top: 0.5em;
-    left: 1.5em;
+    left: 2.4em;
+    top: 50%;
+    transform: translate(-50%, -50%);
     height: 2em;
     width: 2em;
   }
 
-  .search_container input {
+  form input {
     font-size: medium;
     padding-left: 2.75em;
     width: 100%;
@@ -140,78 +185,7 @@
     outline: none;
   }
 
-  .search_container input:focus {
+  form input:focus {
     outline: 3px solid darkorange;
   }
-
-  nav {
-    transition: 0.3s ease;
-  }
-
-  nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  nav ul li {
-    padding: 0 1.5em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  nav ul li:hover,
-  nav ul li:active {
-    background: #2a3236;
-    color: darkorange;
-  }
-
-  nav ul li .nav_icon {
-    width: 2em;
-    height: 2em;
-  }
-
-  nav ul li p {
-    margin-left: 1em;
-    font-size: large;
-    letter-spacing: 0.05em;
-  }
-
-  footer {
-    position: fixed;
-    bottom: 0;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 1em;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    color: #858585;
-  }
-
-  footer p {
-    font-size: large;
-    margin: 0;
-  }
-
-  .icon {
-    width: 2.5em;
-    height: 2.5em;
-  }
-
-  /* .recommender {
-    padding: 1em;
-  }
-
-  .godzilla {
-    height: 30em;
-    background: gray;
-  }
-
-  .aa {
-    height: 20em;
-    background: darkcyan;
-  } */
 </style>
