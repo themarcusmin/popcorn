@@ -80,10 +80,10 @@
 
 <main>
   <header>
-    <div class="home_icon">
+    <div class="header_icon">
       <GiPopcorn />
     </div>
-    <div class="icon" on:click={handleToggleMenu} out:fade>
+    <div class="header_icon" on:click={handleToggleMenu} out:fade>
       <IoIosMenu />
     </div>
   </header>
@@ -137,37 +137,65 @@
     padding: 1em;
   }
 
-  .home_icon {
+  .header_icon {
     width: 2.5em;
     height: 2.5em;
+    cursor: pointer;
   }
 
-  .home_icon:hover,
-  .home_icon:active {
+  .header_icon:hover,
+  .header_icon:active {
     color: darkorange;
   }
 
   /* SEARCH CONTAINER */
   .search_container {
     display: grid;
+    padding: 0.2em 1em;
   }
 
   .search_container form {
     grid-area: 1/1/2/2;
   }
 
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    header {
+      padding: 1em 3em;
+    }
+    .search_container {
+      padding: 0.2em 3em;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    header {
+      padding: 1em 4em;
+    }
+    .search_container {
+      padding: 0.2em 4em;
+    }
+  }
+
+  @media (min-width: 1281px) {
+    header {
+      padding: 1em 6em;
+    }
+    .search_container {
+      padding: 0.5em 6em;
+    }
+  }
+
   form {
     position: relative;
     display: flex;
     flex-direction: row;
-    padding: 0.2em 1em;
     box-sizing: border-box;
   }
 
   form div {
     position: absolute;
     color: gray;
-    left: 2.4em;
+    left: 1.5em;
     top: 50%;
     transform: translate(-50%, -50%);
     height: 2em;

@@ -35,26 +35,61 @@
         media_type: 'Movie',
         year: 2021,
         poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+      },
+      {
+        title: 'Dune Dune',
+        media_type: 'Movie',
+        year: 2021,
+        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+      },
+      {
+        title: 'Dune Dune',
+        media_type: 'Movie',
+        year: 2021,
+        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
       }
     ]
   };
   let results = data.results;
+
+  let show = new Array(results.length).fill(false);
+
+  // Toggle detail panel for desktops and laptops
+  const handleShowPanel = (index) => {
+    show[index] = true;
+  };
+  const handleHidePanel = (index) => {
+    show[index] = false;
+  };
 </script>
 
 <div class="card_container">
-  {#each results as { title, media_type, year, poster_img }}
-    <div class="card">
+  {#each results as { title, media_type, year, poster_img }, i}
+    <div
+      class="card"
+      on:mouseenter={() => handleShowPanel(i)}
+      on:mouseleave={() => handleHidePanel(i)}
+    >
       <img src={`${image_url}${poster_img}`} alt={title} />
       <div class="info">
         <div class="media_type">{media_type}</div>
         <div class="title">{title}</div>
         <div class="release_year">{year}</div>
       </div>
+      <div class="info_desktop" class:showdetail={show[i]}>
+        <div>{media_type}</div>
+        <div>
+          <div class="title">{title}</div>
+          <div>{year}</div>
+        </div>
+      </div>
     </div>
   {/each}
 </div>
 {#if data.page < data.total_pages}
-  <div class="load_more">Load More</div>
+  <div class="view_more_container">
+    <button>View More</button>
+  </div>
 {/if}
 
 <style>
@@ -68,6 +103,17 @@
   .card_container .card {
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+    border-radius: 0.25em;
+  }
+
+  .card_container .card:active {
+    outline: 2px solid darkorange;
+  }
+
+  /* Hidden Desktop Info Panel */
+  .card_container .card .info_desktop {
+    display: none;
   }
 
   /* Mobile Info Panel */
@@ -109,20 +155,107 @@
 
   .card_container div img {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
   }
 
-  .load_more {
-    margin: 0.5em 1em;
+  .view_more_container {
+    padding: 0 1em;
+  }
+
+  .view_more_container button {
     text-align: center;
     border-radius: 0.5em;
     padding: 0.5em;
     border: 2px solid gray;
+    background: inherit;
+    width: 100%;
+    color: white;
+    cursor: pointer;
   }
 
-  .load_more:active,
-  .load_more:hover {
+  .view_more_container button:active,
+  .view_more_container button:hover {
     background: #3a3b3c;
     border-color: #3a3b3c;
+    color: darkorange;
+  }
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    .card_container {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .card_container {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-gap: 1.5em;
+      padding: 1em 3em;
+    }
+
+    .view_more_container {
+      padding: 0 3em;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .card .info {
+      display: none !important; /* Remove detail panel for non-desktop devices */
+    }
+
+    .showdetail {
+      display: flex !important; /* Hover to show detail panel for desktops and laptops*/
+    }
+
+    .card_container .card .info_desktop {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #1d1d1dbf;
+    }
+
+    .card_container .card .info_desktop > * {
+      padding: 1em;
+      color: darkgray;
+    }
+
+    .card_container .card .info_desktop .title {
+      font-size: x-large;
+      color: white;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4; /* number of lines to show */
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    .card_container {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-gap: 1.5em;
+      padding: 1em 4em;
+    }
+
+    .view_more_container {
+      padding: 0 4em;
+    }
+  }
+
+  @media (min-width: 1281px) {
+    .card_container {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-gap: 1.5em;
+      padding: 2em 6em;
+    }
+
+    .view_more_container {
+      padding: 0 6em;
+    }
   }
 </style>

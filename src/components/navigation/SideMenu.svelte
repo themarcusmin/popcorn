@@ -42,7 +42,7 @@
     position: fixed;
     width: 0; /* 0 width - change this with JavaScript */
     height: 100%;
-    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow: hidden; /* Disable scroll */
     z-index: 4;
     top: 0;
     left: 0;

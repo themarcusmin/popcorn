@@ -26,4 +26,22 @@
     font-size: large;
     margin: 0;
   }
+
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    footer {
+      padding: 1em 3em;
+    }
+  }
+
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    footer {
+      padding: 1em 4em;
+    }
+  }
+
+  @media (min-width: 1281px) {
+    footer {
+      padding: 1em 6em;
+    }
+  }
 </style>
