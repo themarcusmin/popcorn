@@ -70,6 +70,58 @@
   const handleToggleMenu = (): void => {
     showMenu = !showMenu;
   };
+
+  // Search API
+  // let data = {
+  //   page: 1,
+  //   total_pages: 8,
+  //   total_results: 158,
+  //   results: [
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     }
+  //   ]
+  // };
+  let data;
 </script>
 
 <svelte:head>
@@ -101,7 +153,7 @@
     </form>
   </div>
 
-  <SearchResult />
+  <SearchResult {data} />
 
   <Footer />
 </main>
@@ -124,6 +176,8 @@
     display: flex;
     flex-direction: column;
     transition: all 0.5s;
+    position: relative;
+    min-height: 100vh;
   }
 
   header {

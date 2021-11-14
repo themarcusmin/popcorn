@@ -1,58 +1,68 @@
 <script>
   let image_url = 'https://image.tmdb.org/t/p/original';
 
-  let data = {
-    page: 1,
-    total_pages: 8,
-    total_results: 158,
-    results: [
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      },
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      },
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      },
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      },
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      },
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      },
-      {
-        title: 'Dune Dune',
-        media_type: 'Movie',
-        year: 2021,
-        poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
-      }
-    ]
-  };
-  let results = data.results;
+  // let data = {
+  //   page: 1,
+  //   total_pages: 8,
+  //   total_results: 158,
+  //   results: [
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     },
+  //     {
+  //       title: 'Dune Dune',
+  //       media_type: 'Movie',
+  //       year: 2021,
+  //       poster_img: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg'
+  //     }
+  //   ]
+  // };
+  // let results = data.results;
 
-  let show = new Array(results.length).fill(false);
+  export let data = {
+    page: 0,
+    total_pages: 0,
+    total_results: 0,
+    results: []
+  };
+
+  // const { results = [] } = data;
+  // let results = data?.results || [];
+
+  let show = new Array(data.results.length).fill(false);
 
   // Toggle detail panel for desktops and laptops
   const handleShowPanel = (index) => {
@@ -64,7 +74,7 @@
 </script>
 
 <div class="card_container">
-  {#each results as { title, media_type, year, poster_img }, i}
+  {#each data.results as { title, media_type, year, poster_img }, i}
     <div
       class="card"
       on:mouseenter={() => handleShowPanel(i)}
@@ -96,6 +106,7 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
     padding: 1em;
+    padding-bottom: 4em; /* Space for footer */
   }
 
   .card_container .card {
@@ -179,6 +190,7 @@
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-gap: 1.5em;
       padding: 1em 3em;
+      padding-bottom: 4.5em;
     }
   }
 
@@ -224,6 +236,7 @@
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       grid-gap: 1.5em;
       padding: 1em 4em;
+      padding-bottom: 4em;
     }
   }
 
@@ -232,6 +245,7 @@
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-gap: 1.5em;
       padding: 2em 6em;
+      padding-bottom: 4em;
     }
   }
 </style>

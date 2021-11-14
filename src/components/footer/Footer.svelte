@@ -11,7 +11,8 @@
 
 <style>
   footer {
-    margin-top: auto;
+    position: absolute;
+    bottom: 0;
     box-sizing: border-box;
     width: 100%;
     padding: 1em;
