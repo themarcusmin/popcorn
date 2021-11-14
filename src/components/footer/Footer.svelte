@@ -27,7 +27,7 @@
     margin: 0;
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  @media (min-width: 768px) and (max-width: 1024px) {
     footer {
       padding: 1em 3em;
     }

@@ -85,12 +85,10 @@
       </div>
     </div>
   {/each}
+  {#if data.page < data.total_pages}
+    <div class="card view_more">View More</div>
+  {/if}
 </div>
-{#if data.page < data.total_pages}
-  <div class="view_more_container">
-    <button>View More</button>
-  </div>
-{/if}
 
 <style>
   .card_container {
@@ -158,25 +156,15 @@
     /* height: 100%; */
   }
 
-  .view_more_container {
-    padding: 0 1em;
+  .card_container .view_more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1a1b1c;
   }
 
-  .view_more_container button {
-    text-align: center;
-    border-radius: 0.5em;
-    padding: 0.5em;
-    border: 2px solid gray;
-    background: inherit;
-    width: 100%;
-    color: white;
-    cursor: pointer;
-  }
-
-  .view_more_container button:active,
-  .view_more_container button:hover {
+  .card_container .view_more:hover {
     background: #3a3b3c;
-    border-color: #3a3b3c;
     color: darkorange;
   }
 
@@ -186,15 +174,11 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  @media (min-width: 768px) and (max-width: 1024px) {
     .card_container {
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-gap: 1.5em;
       padding: 1em 3em;
-    }
-
-    .view_more_container {
-      padding: 0 3em;
     }
   }
 
@@ -241,10 +225,6 @@
       grid-gap: 1.5em;
       padding: 1em 4em;
     }
-
-    .view_more_container {
-      padding: 0 4em;
-    }
   }
 
   @media (min-width: 1281px) {
@@ -252,10 +232,6 @@
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-gap: 1.5em;
       padding: 2em 6em;
-    }
-
-    .view_more_container {
-      padding: 0 6em;
     }
   }
 </style>

@@ -158,7 +158,7 @@
     grid-area: 1/1/2/2;
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  @media (min-width: 768px) and (max-width: 1024px) {
     header {
       padding: 1em 3em;
     }
