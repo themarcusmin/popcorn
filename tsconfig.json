@@ -24,7 +24,7 @@
 		"checkJs": true,
 		"paths": {
 			"$api/*": ["src/api/*"],
-			"$components/*": ["src/components/*"],
+			"$lib/*": ["src/lib/*"],
 			"$models/*": ["src/models/*"],
 		}
 	},
