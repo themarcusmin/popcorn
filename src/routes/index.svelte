@@ -12,7 +12,7 @@
     total_results: 0
   };
 
-  let query: string;
+  let query: string = '';
 
   let timer: ReturnType<typeof setTimeout>;
   let debounceDelay: number = 500;
@@ -21,7 +21,9 @@
     clearTimeout(timer);
     timer = setTimeout(async (): Promise<void> => {
       let query: string = event.target.value;
-      data = await Search.searchKeyword(query.trim());
+      let trimmedQuery: string = query.trim();
+      if (!trimmedQuery.length) return;
+      data = await Search.searchKeyword(trimmedQuery);
     }, debounceDelay);
   };
 
@@ -36,7 +38,7 @@
   <title>Home</title>
 </svelte:head>
 
-<SearchInput {query} {debounceSearchRequest} />
+<SearchInput onChange={(newValue) => (query = newValue)} {debounceSearchRequest} />
 
 {#if !data.page}
   <div>New releases and recommendations</div>

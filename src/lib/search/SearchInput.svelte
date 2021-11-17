@@ -2,7 +2,9 @@
   import { fly } from 'svelte/transition';
   import IoIosSearch from 'svelte-icons/io/IoIosSearch.svelte';
 
-  export let query: string;
+  export let onChange: (query: string) => void;
+  let query: string = '';
+  $: onChange(query);
 
   export let debounceSearchRequest: svelte.JSX.FormEventHandler<HTMLInputElement>;
 </script>
