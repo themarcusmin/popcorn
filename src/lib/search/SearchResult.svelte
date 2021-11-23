@@ -30,36 +30,38 @@
 </script>
 
 <div class="card_container">
-  {#each results as { name, title, media_type, first_air_date, release_date, poster_path, origin_country }, i}
-    <div
-      class="card"
-      on:mouseenter={() => handleShowPanel(i)}
-      on:mouseleave={() => handleHidePanel(i)}
-    >
-      {#if poster_path}
-        <img src={`${IMAGE_URL}${poster_path}`} alt={name || title} />
-      {:else}
-        <div class="no_img">{name || title}</div>
-      {/if}
-      <div class="info">
-        <div class="type_lang">
-          <div>{media_type.toUpperCase()}</div>
-          <div>{origin_country?.length ? origin_country[0] : ''}</div>
-        </div>
-        <div class="title">{name || title}</div>
-        <div class="release_year">{getYear(first_air_date) || getYear(release_date) || ''}</div>
-      </div>
-      <div class="info_desktop" class:showdetail={show[i]}>
-        <div class="type_lang">
-          <div>{media_type.toUpperCase()}</div>
-          <div>{origin_country?.length ? origin_country[0] : ''}</div>
-        </div>
-        <div>
+  {#each results as { id, media_type, name, title, first_air_date, release_date, poster_path, origin_country }, i}
+    <a href={`/${media_type}/${id}`}>
+      <div
+        class="card"
+        on:mouseenter={() => handleShowPanel(i)}
+        on:mouseleave={() => handleHidePanel(i)}
+      >
+        {#if poster_path}
+          <img src={`${IMAGE_URL}${poster_path}`} alt={name || title} />
+        {:else}
+          <div class="no_img">{name || title}</div>
+        {/if}
+        <div class="info">
+          <div class="type_lang">
+            <div>{media_type.toUpperCase()}</div>
+            <div>{origin_country?.length ? origin_country[0] : ''}</div>
+          </div>
           <div class="title">{name || title}</div>
-          <div>{getYear(first_air_date) || getYear(release_date) || ''}</div>
+          <div class="release_year">{getYear(first_air_date) || getYear(release_date) || ''}</div>
+        </div>
+        <div class="info_desktop" class:showdetail={show[i]}>
+          <div class="type_lang">
+            <div>{media_type.toUpperCase()}</div>
+            <div>{origin_country?.length ? origin_country[0] : ''}</div>
+          </div>
+          <div>
+            <div class="title">{name || title}</div>
+            <div>{getYear(first_air_date) || getYear(release_date) || ''}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   {/each}
   {#if page < total_pages}
     <div class="card">
@@ -157,6 +159,7 @@
     color: darkorange;
     border: none;
     cursor: pointer;
+    font-size: medium;
   }
 
   .card_container .view_more:hover {
