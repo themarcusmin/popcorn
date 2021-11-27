@@ -11,20 +11,20 @@
       }
     };
   }
+  // query if movie belongs to favorite
   // filter recommendations to remove watched movies
 </script>
 
 <script lang="ts">
-  import { onMount } from 'svelte';
+  // import { onMount } from 'svelte';
   import type { GenreType, MovieType, VideoType } from '$models/movie.interface';
 
   export let movieData: MovieType;
-  $: console.log({ movieData });
+  // $: console.log({ movieData });
 
-  onMount(() => {
-    console.log('mounted', movieData.title);
-  });
-  //   import json from '$models/gg';
+  // onMount(() => {
+  //   console.log('mounted', movieData.title);
+  // });
 
   import Poster from '$lib/common/Poster.svelte';
   import Details from '$lib/common/Details.svelte';

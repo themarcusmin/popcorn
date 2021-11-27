@@ -96,30 +96,4 @@
       display: none;
     }
   }
-
-  /* and (max-width: 1024px) */
-  /* @media (min-width: 1025px) {
-    .poster {
-      height: 30em;
-      display: flex;
-      gap: 1em;
-      background-color: inherit;
-    }
-
-    .poster .backdrop_img {
-      display: block;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .poster .poster_img {
-      display: block;
-      width: auto;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .poster .dark_overlay > * {
-      display: none;
-    } */
 </style>
