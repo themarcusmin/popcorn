@@ -123,7 +123,7 @@
   }
 
   .details .overview::selection {
-    color: whitesmoke;
+    color: var(--text-selection-color);
   }
 
   @media (min-width: 481px) {

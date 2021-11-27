@@ -40,9 +40,23 @@
     font-family: 'Poppins', sans-serif;
   }
 
+  :global(:root) {
+    --text-color: gray;
+    --text-selection-color: darkorange;
+  }
+
   :global(.icon) {
     width: 2.5em;
     height: 2.5em;
+  }
+
+  :global(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :global(button) {
+    cursor: pointer;
   }
 
   main {
