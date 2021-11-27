@@ -40,7 +40,7 @@
         </div>
       {:else}
         {#each cast.slice(displayCast) as { name, id, character, profile_path }}
-          <a href={`/people/${id}`}>
+          <a href={`/person/${id}`}>
             <div class="actor">
               {#if profile_path}
                 <img src={`${IMAGE_URL}${profile_path}`} alt={name} />
