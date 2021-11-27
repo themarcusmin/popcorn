@@ -14,6 +14,7 @@ const http = axios.create({
 
 const responseBody_search = (response: AxiosResponse) => response.data;
 const responseBody_movie = (response: AxiosResponse) => response.data;
+const responseBody_person = (response: AxiosResponse) => response.data;
 
 const requests = {
   multiSearch: async (query: string, page: number) => http.get('/search/multi', { params: {
@@ -27,10 +28,17 @@ const requests = {
     api_key,
     language,
     append_to_response: 'credits,videos,recommendations'
-  }}).then(responseBody_movie)
+  }}).then(responseBody_movie),
+  getPersonByID: async (person_id: number) => http.get(`/person/${person_id}`, { params: {
+    api_key,
+    language,
+    person_id,
+    append_to_response: 'combined_credits'
+  }}).then(responseBody_person)
 }
 
 export const Search = {
   searchKeyword: (query: string, page = 1): Promise<SearchResponseType> => requests.multiSearch(query, page),
-  getMovie: (movieid: number): Promise <MovieType> => requests.getMovieByID(movieid)
+  getMovie: (movieid: number): Promise <MovieType> => requests.getMovieByID(movieid),
+  getPerson: (personid: number): Promise <void> => requests.getPersonByID(personid)
 }
