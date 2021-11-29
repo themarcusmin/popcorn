@@ -1,15 +1,16 @@
 import type { GenreType, CastType, VideoType, RecommendationType } from "$models/media.interface";
 
-export interface MovieType {
+export interface TvType {
   id: number,
   genres: GenreType[],
-  title?: string,
-  original_title?: string,
+  name?: string,
+  original_name?: string,
   poster_path: string,
   backdrop_path: string,
   overview: string,
-  release_date?: string,
-  runtime: number,
+  first_air_date?: string,
+  last_air_date?: string,
+  number_of_seasons: number,
   vote_average: number,
   vote_count: number
   credits: {
