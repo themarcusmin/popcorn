@@ -1,20 +1,25 @@
 <script lang="ts">
-  import { IMAGE_URL } from '$lib/constants';
-  import type { RecommendationType } from '$models/movie.interface';
-
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
 
+  import { IMAGE_URL } from '$lib/constants';
+  import type { RecommendationType } from '$models/media.interface';
   export let recommendationsResults: RecommendationType[];
 </script>
 
 <div class="recommendations">
   <div class="title">You may also like</div>
   <div class="carousel">
-    {#each recommendationsResults as { poster_path, title, id }}
+    {#each recommendationsResults as { poster_path, title, name, id, media_type }}
       <div class="recommended_movie">
-        <a rel="external" href={`/movie/${id}`}>
-          <img src={`${IMAGE_URL}${poster_path}`} alt={title} />
-          <p>{title}</p>
+        <a rel="external" href={`/${media_type}/${id}`}>
+          {#if poster_path}
+            <img src={`${IMAGE_URL}${poster_path}`} alt={title || name} />
+          {:else}
+            <div class="poster_path_fallback">
+              {title || name}
+            </div>
+          {/if}
+          <p>{title || name}</p>
         </a>
         <button>
           <div class="icon" aria-hidden="true" tabindex="-1">
@@ -75,6 +80,15 @@
   .recommendations .carousel .recommended_movie img:hover,
   img:active {
     opacity: 0.75;
+  }
+
+  .recommendations .carousel .recommended_movie .poster_path_fallback {
+    width: 8.5em;
+    height: 12em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--fallback-img-color);
   }
 
   .recommendations .carousel .recommended_movie p {

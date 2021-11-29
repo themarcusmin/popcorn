@@ -11,9 +11,11 @@
 
   export let isFavorite: boolean;
   export let title: string;
-  export let original_title: string;
-  export let release_year: string;
-  export let runtime: number;
+  export let original_title: string = '';
+  export let release_year: string = ''; // movie
+  export let runtime: number = 0; // movie
+  export let release_year_tv: string = ''; // tv
+  export let number_of_seasons: number = 0; // tv
   export let vote_average: number;
   export let vote_count: number;
   export let all_genres: string;
@@ -40,7 +42,14 @@
   {/if}
   <div class="nm_details">
     <div class="nm_title">{title || original_title}</div>
-    <span>{`${release_year} · ${runtime} min`}</span>
+    <!-- movie -->
+    {#if release_year && runtime}
+      <span>{`${release_year} · ${runtime} min`}</span>
+    {/if}
+    <!-- tv -->
+    {#if release_year_tv && number_of_seasons}
+      <span>{`${release_year_tv} · ${number_of_seasons} seasons`}</span>
+    {/if}
   </div>
   <div class="vote">
     <div class="ratings">
@@ -51,7 +60,7 @@
     </div>
     <div class="count">{vote_count} Votes</div>
   </div>
-  <div class="genre">{all_genres}</div>
+  <div class="genre">{all_genres || 'Genre'}</div>
   <WatchDropdown />
   <div class="overview">
     {overview}

@@ -17,7 +17,7 @@
   <div class="title">Cast</div>
   <div class="cast_container">
     {#each cast.slice(0, displayCast) as { name, id, character, profile_path }}
-      <a href={`/people/${id}`}>
+      <a href={`/person/${id}`}>
         <div class="actor">
           {#if profile_path}
             <img src={`${IMAGE_URL}${profile_path}`} alt={name} />
@@ -122,7 +122,7 @@
   .cast .cast_container .more_fewer {
     display: flex;
     align-items: center;
-    height: 7em;
+    height: 3.5em;
   }
 
   .cast .cast_container span {
