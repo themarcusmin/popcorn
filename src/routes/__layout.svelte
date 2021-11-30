@@ -18,9 +18,11 @@
 
 <main>
   <header>
-    <div class="header_icon">
-      <GiPopcorn />
-    </div>
+    <a href="/">
+      <div class="header_icon">
+        <GiPopcorn />
+      </div>
+    </a>
     <div class="header_icon" on:click={handleToggleMenu} out:fade>
       <IoIosMenu />
     </div>
@@ -43,6 +45,7 @@
   :global(:root) {
     --text-color: gray;
     --text-selection-color: darkorange;
+    --fallback-img-color: #3a3b3c;
   }
 
   :global(.icon) {
