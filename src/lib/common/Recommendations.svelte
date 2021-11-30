@@ -2,87 +2,60 @@
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
 
   import { IMAGE_URL } from '$lib/constants';
+  import Carousel from '$lib/Carousel.svelte';
+
   import type { RecommendationType } from '$models/media.interface';
   export let recommendationsResults: RecommendationType[];
 </script>
 
-<div class="recommendations">
-  <div class="title">You may also like</div>
-  <div class="carousel">
-    {#each recommendationsResults as { poster_path, title, name, id, media_type }}
-      <div class="recommended_movie">
-        <a rel="external" href={`/${media_type}/${id}`}>
-          {#if poster_path}
-            <img src={`${IMAGE_URL}${poster_path}`} alt={title || name} />
-          {:else}
-            <div class="poster_path_fallback">
-              {title || name}
-            </div>
-          {/if}
-          <p>{title || name}</p>
-        </a>
-        <button>
-          <div class="icon" aria-hidden="true" tabindex="-1">
-            <IoIosAdd />
+<Carousel title="You may also like">
+  {#each recommendationsResults as { poster_path, title, name, id, media_type }}
+    <div class="recommended_movie">
+      <a rel="external" href={`/${media_type}/${id}`}>
+        {#if poster_path}
+          <img src={`${IMAGE_URL}${poster_path}`} alt={title || name} />
+        {:else}
+          <div class="poster_path_fallback">
+            {title || name}
           </div>
-          <div>Watchlist</div>
-        </button>
-      </div>
-    {/each}
-  </div>
-</div>
+        {/if}
+        <p>{title || name}</p>
+      </a>
+      <button>
+        <div class="icon" aria-hidden="true" tabindex="-1">
+          <IoIosAdd />
+        </div>
+        <div>Watchlist</div>
+      </button>
+    </div>
+  {/each}
+</Carousel>
 
 <style>
-  .recommendations {
-    margin-bottom: 1em;
-  }
-
-  .recommendations .title {
-    padding: 0 1.5em 0.5em;
-    font-size: x-large;
-  }
-
-  .recommendations .carousel {
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: row;
-    gap: 1.25em;
-    height: auto;
-    /* Hide horizontal scrollbar */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  .recommendations .carousel::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
-  }
-
-  .recommendations .carousel .recommended_movie {
+  .recommended_movie {
     width: 9em;
   }
 
-  .recommendations .carousel .recommended_movie:first-child {
+  .recommended_movie:first-child {
     margin-left: 1.5em;
   }
 
-  .recommendations .carousel .recommended_movie:last-child {
+  .recommended_movie:last-child {
     margin-right: 1.5em;
   }
 
-  .recommendations .carousel .recommended_movie img {
+  .recommended_movie img {
     width: 8.5em;
     height: 12em;
     object-fit: cover;
   }
 
-  .recommendations .carousel .recommended_movie img:hover,
+  .recommended_movie img:hover,
   img:active {
     opacity: 0.75;
   }
 
-  .recommendations .carousel .recommended_movie .poster_path_fallback {
+  .recommended_movie .poster_path_fallback {
     width: 8.5em;
     height: 12em;
     display: flex;
@@ -91,7 +64,7 @@
     background: var(--fallback-img-color);
   }
 
-  .recommendations .carousel .recommended_movie p {
+  .recommended_movie p {
     margin: 0.5em;
     height: 4.75em;
     overflow: hidden;
@@ -103,11 +76,11 @@
     -webkit-box-orient: vertical;
   }
 
-  .recommendations .carousel .recommended_movie p:hover {
+  .recommended_movie p:hover {
     text-decoration: underline;
   }
 
-  .recommendations .carousel .recommended_movie button {
+  .recommended_movie button {
     width: 100%;
     background: inherit;
     color: white;
@@ -118,50 +91,42 @@
     margin-bottom: 0.5em;
   }
 
-  .recommendations .carousel .recommended_movie button:hover,
+  .recommended_movie button:hover,
   button:active {
     background: #3a3b3c;
     border-color: #3a3b3c;
   }
 
-  .recommendations .carousel .recommended_movie button:active {
+  .recommended_movie button:active {
     transform: scale(0.95);
   }
 
-  .recommendations .carousel .recommended_movie button .icon {
+  .recommended_movie button .icon {
     width: 1.5em;
     height: 1.5em;
   }
 
-  .recommendations .carousel .recommended_movie button div {
+  .recommended_movie button div {
     display: inline-block;
     vertical-align: middle;
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
-    .recommendations .carousel {
-      margin: 0 -3em;
-    }
-
-    .recommendations .carousel .recommended_movie:first-child {
+    .recommended_movie:first-child {
       margin-left: 4.5em;
     }
 
-    .recommendations .carousel .recommended_movie:last-child {
+    .recommended_movie:last-child {
       margin-right: 4.5em;
     }
   }
 
   @media (min-width: 1025px) {
-    .recommendations .carousel {
-      margin: 0 -4em;
-    }
-
-    .recommendations .carousel .recommended_movie:first-child {
+    .recommended_movie:first-child {
       margin-left: 5.5em;
     }
 
-    .recommendations .carousel .recommended_movie:last-child {
+    .recommended_movie:last-child {
       margin-right: 5.5em;
     }
   }
