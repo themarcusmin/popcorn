@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from 'axios'
 import type { SearchResponseType } from '$models/searchresponse.interface'
 import type { MovieType } from '$models/movie.interface';
+import type { TvType } from '$models/tv.interface';
 import type { PersonType } from '$models/person.interface';
+import type { TrendingType } from '$models/trending.interface';
 
 const api_key: string = import.meta.env.VITE_TMDB_API_KEY;
 const language = 'en-US';
@@ -39,12 +41,16 @@ const requests = {
     api_key,
     language,
     append_to_response: 'credits,videos,combined_credits'
+  }}).then(responseBody_person),
+  getTrendingToday: async (media_type: TrendingType) => http.get(`/trending/${media_type}/day`, { params: {
+    api_key
   }}).then(responseBody_person)
 }
 
 export const Search = {
   searchKeyword: (query: string, page = 1): Promise<SearchResponseType> => requests.multiSearch(query, page),
   getMovie: (movieid: number): Promise <MovieType> => requests.getMovieByID(movieid),
-  getTv: (tvid: number): Promise <void> => requests.getTvByID(tvid),
-  getPerson: (personid: number): Promise <PersonType> => requests.getPersonByID(personid)
+  getTv: (tvid: number): Promise <TvType> => requests.getTvByID(tvid),
+  getPerson: (personid: number): Promise <PersonType> => requests.getPersonByID(personid),
+  getTrending: (media_type: TrendingType): Promise <SearchResponseType> => requests.getTrendingToday(media_type)
 }

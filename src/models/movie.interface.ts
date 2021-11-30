@@ -5,6 +5,7 @@ export interface MovieType {
   genres: GenreType[],
   title?: string,
   original_title?: string,
+  media_type: string,
   poster_path: string,
   backdrop_path: string,
   overview: string,

@@ -5,6 +5,7 @@ export interface TvType {
   genres: GenreType[],
   name?: string,
   original_name?: string,
+  media_type: string,
   poster_path: string,
   backdrop_path: string,
   overview: string,
