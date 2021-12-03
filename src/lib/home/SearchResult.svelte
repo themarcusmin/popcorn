@@ -30,15 +30,15 @@
 </script>
 
 <div class="card_container">
-  {#each results as { id, media_type, name, title, first_air_date, release_date, poster_path, origin_country }, i}
+  {#each results as { id, media_type, name, title, first_air_date, release_date, poster_path, origin_country, profile_path }, i}
     <a href={`/${media_type}/${id}`}>
       <div
         class="card"
         on:mouseenter={() => handleShowPanel(i)}
         on:mouseleave={() => handleHidePanel(i)}
       >
-        {#if poster_path}
-          <img src={`${IMAGE_URL}${poster_path}`} alt={name || title} />
+        {#if poster_path || profile_path}
+          <img src={`${IMAGE_URL}${poster_path || profile_path}`} alt={name || title} />
         {:else}
           <div class="no_img">{name || title}</div>
         {/if}
@@ -74,6 +74,7 @@
   .card_container {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr; /* Same height for all rows */
     grid-gap: 1em;
     padding: 1em;
     padding-bottom: 4em; /* Space for footer */
@@ -84,7 +85,8 @@
     overflow: hidden;
     cursor: pointer;
     border-radius: 0.25em;
-    height: 16em;
+    /* height: 15em; */
+    height: 100%;
   }
 
   .card_container .card:active {
@@ -97,6 +99,7 @@
     align-items: center;
     text-align: center;
     height: 100%;
+    /* height: 15em; */
     background: #3a3b3c;
   }
 
