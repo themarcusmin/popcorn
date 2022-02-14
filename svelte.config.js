@@ -17,7 +17,9 @@ const config = {
         alias: {
           $api: path.resolve('./src/api'),
           $lib: path.resolve('./src/lib'),
-          $models: path.resolve('./src/models')
+          $models: path.resolve('./src/models'),
+          $supabase: path.resolve('./src/supabase'),
+          $stores: path.resolve('./src/stores')
         }
       }
     }

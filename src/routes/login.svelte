@@ -1,8 +1,23 @@
 <script lang="ts">
+  import { supabase } from '$supabase/supabaseClient';
+
+  let emailSent = false;
+  let loading = false;
+  let email: string = '';
+
   let errorMessage: string = '';
 
-  const handleSubmit = (): void => {
-    console.log('Logging in');
+  const handleLogin = async (): Promise<void> => {
+    try {
+      loading = true;
+      const { error } = await supabase.auth.signIn({ email });
+      if (error) throw error;
+    } catch (error) {
+      errorMessage = error.message || error.description;
+    } finally {
+      loading = false;
+      emailSent = true;
+    }
   };
 </script>
 
@@ -10,12 +25,17 @@
   <title>Login | Popcorn</title>
 </svelte:head>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={handleLogin}>
   <h1>POPCORN</h1>
   <h3>Login to Your Account</h3>
-  <input placeholder="Email" type="email" />
-  <input placeholder="Password" type="password" />
-  <button type="submit">Login</button>
+  {#if emailSent}
+    <div class="email_sent">A link has been sent to {email}.</div>
+  {:else}
+    <input placeholder="Email" type="email" bind:value={email} />
+    <button type="submit" class={loading ? 'button--loading' : ''}>
+      {loading ? 'Loading' : 'Send me a magic link'}
+    </button>
+  {/if}
   <div class="register">
     <a href="/register">Need an account? Register</a>
   </div>
@@ -50,6 +70,7 @@
   }
 
   form button {
+    position: relative;
     font-size: medium;
     border-radius: 1em;
     border: none;
@@ -74,6 +95,37 @@
   form label {
     text-align: center;
     color: red;
+  }
+
+  form .email_sent {
+    color: darkorange;
+  }
+
+  /* Spinner for loading button */
+  .button--loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 3.5em;
+    /* right: 0; */
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+
+  @keyframes button-loading-spinner {
+    from {
+      transform: rotate(0turn);
+    }
+
+    to {
+      transform: rotate(1turn);
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {

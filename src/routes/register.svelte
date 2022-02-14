@@ -1,8 +1,30 @@
 <script lang="ts">
+  import { supabase } from '$supabase/supabaseClient';
+
+  let emailSent = false;
+  let loading = false;
+  let email: string = '';
   let errorMessage: string = '';
 
-  const handleSubmit = (): void => {
-    console.log('Registering account');
+  const handleRegister = async (): Promise<void> => {
+    if (email.trim() === '') {
+      errorMessage = 'Missing email';
+      return;
+    }
+
+    try {
+      loading = true;
+      const { error } = await supabase.auth.signIn({
+        email
+      });
+      if (error) throw error;
+    } catch (error) {
+      errorMessage = error.message || error.description;
+    } finally {
+      loading = false;
+      emailSent = true;
+    }
+    return;
   };
 </script>
 
@@ -10,14 +32,17 @@
   <title>Register | Popcorn</title>
 </svelte:head>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={handleRegister}>
   <h1>POPCORN</h1>
   <h3>Register Now</h3>
-  <input placeholder="Email" type="email" />
-  <input placeholder="Name" type="text" />
-  <input placeholder="Password" type="password" />
-  <input placeholder="Confirm Password" type="password" />
-  <button type="submit">Register</button>
+  {#if emailSent}
+    <div class="email_sent">A link has been sent to {email}.</div>
+  {:else}
+    <input placeholder="Email" type="email" bind:value={email} />
+    <button type="submit" class={loading ? 'button--loading' : ''}>
+      {loading ? 'Loading' : 'Send me a magic link'}
+    </button>
+  {/if}
   <div class="login">
     <a href="/login">Already Have an Account? Login</a>
   </div>
@@ -52,6 +77,7 @@
   }
 
   form button {
+    position: relative;
     font-size: medium;
     border-radius: 1em;
     border: none;
@@ -76,6 +102,33 @@
   form label {
     text-align: center;
     color: red;
+  }
+
+  /* Spinner for loading button */
+  .button--loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 3.5em;
+    /* right: 0; */
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+
+  @keyframes button-loading-spinner {
+    from {
+      transform: rotate(0turn);
+    }
+
+    to {
+      transform: rotate(1turn);
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
