@@ -1,3 +1,14 @@
+<script context="module">
+  export async function load({ page }) {
+    const session = supabase.auth.session();
+    // Redirect if routes match /login or /register AND session exists
+    if (/[login|register]/g.test(page.path) && session) {
+      return { redirect: '/', status: 302 };
+    }
+    return { props: {} };
+  }
+</script>
+
 <script lang="ts">
   import { supabase } from '$supabase/supabaseClient';
   import { user } from '$stores/authStore';
