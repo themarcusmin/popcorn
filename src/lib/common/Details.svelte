@@ -1,15 +1,14 @@
 <script lang="ts">
-  // isFavorite
-  import IoIosHeartEmpty from 'svelte-icons/io/IoIosHeartEmpty.svelte';
-  import IoIosHeart from 'svelte-icons/io/IoIosHeart.svelte';
+  export let media_type;
+  export let media_id;
 
   // VOTE AVERAGE
   import FaStar from 'svelte-icons/fa/FaStar.svelte';
 
   // Watched Status
   import WatchDropdown from './WatchDropdown.svelte';
+  import Favorite from './Favorite.svelte';
 
-  export let isFavorite: boolean;
   export let title: string;
   export let original_title: string = '';
   export let release_year: string = ''; // movie
@@ -20,26 +19,10 @@
   export let vote_count: number;
   export let all_genres: string;
   export let overview: string;
-
-  const handleAddToFavorites = (): void => {
-    isFavorite = true;
-  };
-
-  const handleRemoveFromFavorites = (): void => {
-    isFavorite = false;
-  };
 </script>
 
 <div class="details">
-  {#if isFavorite}
-    <div class="favorites red_heart" on:click={handleRemoveFromFavorites}>
-      <IoIosHeart />
-    </div>
-  {:else}
-    <div class="favorites" on:click={handleAddToFavorites}>
-      <IoIosHeartEmpty />
-    </div>
-  {/if}
+  <Favorite {media_id} {media_type} />
   <div class="nm_details">
     <div class="nm_title">{title || original_title}</div>
     <!-- movie -->
@@ -79,20 +62,6 @@
 
   .details .nm_details {
     display: none;
-  }
-
-  .details .favorites {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2.5em;
-    width: 2.5em;
-    margin: 1em 1.5em;
-    cursor: pointer;
-  }
-
-  .details .red_heart {
-    color: #e31b23;
   }
 
   .details .vote {
@@ -142,10 +111,6 @@
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
-    .details .favorites {
-      margin: 2em;
-    }
-
     .details .nm_details {
       display: block;
     }
@@ -162,10 +127,6 @@
   }
 
   @media (min-width: 1025px) {
-    .details .favorites {
-      margin: 2em;
-    }
-
     .details .nm_details {
       display: block;
     }

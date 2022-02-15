@@ -2,35 +2,39 @@
   import { Search } from '$api/api';
 
   export async function load({ page }) {
+    // Fetch movie data
     const { movieid } = page.params;
     const movieData = await Search.getMovie(movieid);
-    console.log('new data');
+
     return {
       props: {
+        movieid,
         movieData
       }
     };
   }
-  // query if movie belongs to favorite
   // filter recommendations to remove watched movies
 </script>
 
 <script lang="ts">
-  // import { onMount } from 'svelte';
-  import type { GenreType, MovieType, VideoType } from '$models/movie.interface';
+  // MEDIA DATA for child components
+  import type { MediaIDType } from '$models/supabase.interface';
+  export let movieid: MediaIDType;
 
-  export let movieData: MovieType;
-  // $: console.log({ movieData });
+  let media_type = 'movie';
+  let media_id = movieid;
 
-  // onMount(() => {
-  //   console.log('mounted', movieData.title);
-  // });
+  // MOVIE DATA
+  import type { GenreType, VideoType } from '$models/media.interface';
+  import type { MovieType } from '$models/movie.interface';
 
   import Poster from '$lib/common/Poster.svelte';
   import Details from '$lib/common/Details.svelte';
+  import Cast from '$lib/common/Cast.svelte';
   import Trailer from '$lib/common/Trailer.svelte';
   import Recommendations from '$lib/common/Recommendations.svelte';
-  import Cast from '$lib/common/Cast.svelte';
+
+  export let movieData: MovieType;
 
   const {
     title,
@@ -47,9 +51,6 @@
     videos: { results: videosResults },
     recommendations: { results: recommendationsResults }
   } = movieData;
-
-  // isFavorite: query for isfavorite status
-  let isFavorite: boolean = false;
 
   // RELEASE YEAR
   function getYear(date: string): string {
@@ -70,6 +71,10 @@
 
   // TRAILER
   function getMostRecentTrailer(videosResults: VideoType[]): VideoType {
+    if (!videosResults.length) {
+      return null;
+    }
+
     let ytTrailer: VideoType[] = videosResults.filter(
       (video) => video.type === 'Trailer' && video.site === 'YouTube'
     );
@@ -91,7 +96,8 @@
   <Poster {poster_path} {backdrop_path} {title} {original_title} {release_year} {runtime} />
 
   <Details
-    {isFavorite}
+    {media_id}
+    {media_type}
     {title}
     {original_title}
     {release_year}
@@ -102,11 +108,17 @@
     {overview}
   />
 
-  <Cast {cast} />
+  {#if cast.length}
+    <Cast {cast} />
+  {/if}
 
-  <Trailer title={officialTrailer.name} ytKey={officialTrailer.key} />
+  {#if officialTrailer}
+    <Trailer title={officialTrailer.name} ytKey={officialTrailer.key} />
+  {/if}
 
-  <Recommendations {recommendationsResults} />
+  {#if recommendationsResults.length}
+    <Recommendations {recommendationsResults} />
+  {/if}
 </div>
 
 <style>
