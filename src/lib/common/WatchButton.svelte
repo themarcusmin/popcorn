@@ -32,10 +32,10 @@
   // This variable syncs the watch status with CSS
   $: currentStatus = options[index];
 
-  // Animation + API call to update DB
   import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
-  import LoadingButton from './LoadingButton.svelte';
+  import LoadingButton from '$lib/common/LoadingButton.svelte';
 
+  // Animation + API call to update DB
   let animate = false;
 
   const animateAndUpdateButton = () => {
@@ -66,7 +66,7 @@
 
 <div class="container">
   {#if !session}
-    <a href="/login" class="first">
+    <a href="/login">
       <div class="icon">
         <IoIosAdd />
       </div>
@@ -102,6 +102,16 @@
     position: relative;
     display: flex;
     gap: 0.5em;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    border-radius: 0.4em;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    padding: 0.5em 1em;
+    height: 3em;
   }
 
   /* Credit: https://codepen.io/nourabusoud/pen/ypZzMM */

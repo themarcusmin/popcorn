@@ -44,7 +44,7 @@
     <div class="count">{vote_count} Votes</div>
   </div>
   <div class="genre">{all_genres || 'Genre'}</div>
-  <WatchButton />
+  <WatchButton {media_id} {media_type} />
   <div class="overview">
     {overview}
   </div>
