@@ -1,24 +1,15 @@
 <script lang="ts">
   // Check for session
-  import { supabase } from '$supabase/supabaseClient';
-  const session = supabase.auth.session();
+  import { session } from '$stores/sessionStore';
 
-  // Animation
-  import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
+  import { user } from '$stores/authStore';
+  import { checkWatch, addToWatch, updateToWatched, removeWatched } from '$api/watch';
+  import type { MediaIDType, MediaType } from '$models/supabase.interface';
 
-  let animate = false;
+  export let media_id: MediaIDType;
+  export let media_type: MediaType;
 
-  const animateAndUpdateButton = () => {
-    animate = false;
-    animate = true;
-    setTimeout(() => (animate = false), 700);
-    if (index === options.length - 1) {
-      index = 0;
-    } else {
-      index += 1;
-    }
-  };
-
+  let loading = false; // Makes sure button is spinning on initial load
   let index = 0;
 
   let options = [
@@ -27,7 +18,50 @@
     { status: 'watched', text: 'Watched' }
   ];
 
+  // Check the watch status of media and update index
+  $: (loading = true),
+    checkWatch(media_type, media_id, $user?.id)
+      .then((status) => {
+        if (status === 'towatch') index = 1;
+        else if (status === 'watched') index = 2;
+        else index = 0;
+      })
+      .catch(console.error)
+      .finally(() => (loading = false));
+
+  // This variable syncs the watch status with CSS
   $: currentStatus = options[index];
+
+  // Animation + API call to update DB
+  import IoIosAdd from 'svelte-icons/io/IoIosAdd.svelte';
+  import LoadingButton from './LoadingButton.svelte';
+
+  let animate = false;
+
+  const animateAndUpdateButton = () => {
+    animate = false;
+    animate = true;
+    setTimeout(() => (animate = false), 700);
+    // Add to watch: Add to watchlist => To Watch
+    if (index === 0) {
+      // index increment after then
+      addToWatch(media_type, media_id, $user.id)
+        .then(() => (index += 1))
+        .catch(console.error);
+    }
+    // Add watched: To Watch => watched
+    else if (index === 1) {
+      updateToWatched(media_type, media_id, $user.id)
+        .then(() => (index += 1))
+        .catch(console.error);
+    }
+    // Remove record: Watched => Add to watchlist
+    else {
+      removeWatched(media_type, media_id, $user.id)
+        .then(() => (index = 0))
+        .catch(console.error);
+    }
+  };
 </script>
 
 <div class="container">
@@ -38,6 +72,8 @@
       </div>
       <div>Add to Watchlist</div>
     </a>
+  {:else if loading}
+    <LoadingButton />
   {:else}
     <button
       class="bubbly-button"
