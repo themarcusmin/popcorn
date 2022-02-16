@@ -6,7 +6,7 @@ export async function checkFavorite(
   media_id: MediaIDType,
   user_id: UserIDType
 ): Promise<boolean> {
-  if (typeof user_id === 'undefined') return false;
+  if (typeof user_id === 'undefined') throw 'user is undefined';
   const { data, error } = await supabase
     .from('favorites')
     .select('media_type, media_id')
@@ -14,8 +14,7 @@ export async function checkFavorite(
     .eq('media_id', media_id)
     .eq('user_id', user_id);
   if (error) {
-    console.error(error);
-    return false;
+    throw error;
   }
   if (!data.length) return false;
   return true;
@@ -31,8 +30,7 @@ export async function addFavorite(
     .insert([{ media_type, media_id, user_id }], { returning: 'minimal' });
 
   if (error) {
-    console.error(error);
-    return false;
+    throw error;
   }
   return true;
 }
@@ -48,8 +46,7 @@ export async function removeFavorite(
     .match({ media_type, media_id, user_id });
 
   if (error) {
-    console.error(error);
-    return false;
+    throw error;
   }
   return true;
 }

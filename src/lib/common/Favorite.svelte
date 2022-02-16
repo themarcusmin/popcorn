@@ -8,24 +8,33 @@
 
   export let media_id: MediaIDType;
   export let media_type: MediaType;
-  let isFavorite: boolean;
+
+  let loading = false; // Makes sure heart icon is showing spinner on initial load
+  let isFavorite = false;
 
   // Check the favorites status of media
-  $: checkFavorite(media_type, media_id, $user?.id).then((status: boolean) => {
-    isFavorite = status;
-  });
+  $: loading = true;
+  checkFavorite(media_type, media_id, $user?.id)
+    .then((status: boolean) => {
+      isFavorite = status;
+    })
+    .catch(console.error)
+    .finally(() => (loading = false));
 
+  import Spinner from '$lib/common/Spinner.svelte';
   import IoIosHeartEmpty from 'svelte-icons/io/IoIosHeartEmpty.svelte';
   import IoIosHeart from 'svelte-icons/io/IoIosHeart.svelte';
 
   // Handle DB updates via Supabase API call
   const handleAddToFavorites = (): void => {
-    addFavorite(media_type, media_id, $user.id).then((status: boolean) => (isFavorite = status));
+    addFavorite(media_type, media_id, $user.id)
+      .then((status: boolean) => (isFavorite = status))
+      .catch(console.error);
   };
   const handleRemoveFromFavorites = (): void => {
-    removeFavorite(media_type, media_id, $user.id).then(
-      (status: boolean) => (isFavorite = !status)
-    );
+    removeFavorite(media_type, media_id, $user.id)
+      .then((status: boolean) => (isFavorite = !status))
+      .catch(console.error);
   };
 </script>
 
@@ -33,6 +42,8 @@
   <a href="/login" class="favorites">
     <IoIosHeartEmpty />
   </a>
+{:else if loading}
+  <Spinner />
 {:else if isFavorite}
   <div class="favorites red_heart" on:click={handleRemoveFromFavorites}>
     <IoIosHeart />
