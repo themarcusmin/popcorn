@@ -6,8 +6,8 @@
   import FaStar from 'svelte-icons/fa/FaStar.svelte';
 
   // Watched Status
-  import WatchDropdown from './WatchDropdown.svelte';
   import Favorite from './Favorite.svelte';
+  import WatchButton from './WatchButton.svelte';
 
   export let title: string;
   export let original_title: string = '';
@@ -44,7 +44,7 @@
     <div class="count">{vote_count} Votes</div>
   </div>
   <div class="genre">{all_genres || 'Genre'}</div>
-  <WatchDropdown />
+  <WatchButton />
   <div class="overview">
     {overview}
   </div>
