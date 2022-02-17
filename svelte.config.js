@@ -19,7 +19,8 @@ const config = {
           $lib: path.resolve('./src/lib'),
           $models: path.resolve('./src/models'),
           $supabase: path.resolve('./src/supabase'),
-          $stores: path.resolve('./src/stores')
+          $stores: path.resolve('./src/stores'),
+          $utils: path.resolve('./src/utils')
         }
       }
     }

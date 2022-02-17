@@ -1,7 +1,8 @@
 <script lang="ts">
   import Stats from '$lib/profile/Stats.svelte';
+  import Heatmap from '$lib/profile/Heatmap.svelte';
 
-  let profileName: string = 'John Wick';
+  let profileName = 'John Wick';
 </script>
 
 <svelte:head>
@@ -11,3 +12,4 @@
 </svelte:head>
 
 <Stats genres="Comedy, Thriller, Action" watchedMovies={22} watchedTVShows={10} />
+<Heatmap />
