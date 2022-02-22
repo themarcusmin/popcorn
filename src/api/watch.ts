@@ -3,7 +3,8 @@ import type {
   MediaType,
   MediaIDType,
   UserIDType,
-  WatchStatusType
+  WatchStatusType,
+  WatchedCountType
 } from '$models/supabase.interface';
 
 export async function checkWatch(
@@ -71,4 +72,47 @@ export async function removeWatched(
     throw error;
   }
   return true;
+}
+
+/**
+ * Description: Reload schema whenever a new function is added
+ *
+ * NOTIFY pgrst, 'reload schema'
+ */
+
+/**
+ * Description: Function to retrieve the number of media consumed by the user
+ * 
+ * CREATE OR REPLACE FUNCTION countWatchedMedia(USERID text, TZNAME text, MONTHS int)
+    RETURNS TABLE (
+      dte timestamp,
+      media_count bigint
+    )
+  AS $$
+  BEGIN
+   RETURN QUERY
+    select
+    date_trunc('day', created_at at time zone TZNAME)::timestamp, count(id)
+    from watch
+    where status = 'watched'
+    and user_id::text = USERID
+    and created_at > current_date - (MONTHS || ' months')::interval
+    group by date_trunc('day', created_at::timestamptz at time zone TZNAME);
+  END;
+  $$ LANGUAGE plpgsql
+ */
+
+export async function countWatched(user_id: UserIDType): Promise<WatchedCountType[]> {
+  if (typeof user_id === 'undefined') throw 'user is undefined';
+
+  const { data, error } = await supabase.rpc('countwatchedmedia', {
+    userid: user_id,
+    tzname: 'Australia/Melbourne',
+    months: 5
+  });
+
+  if (error) {
+    throw error;
+  }
+  return data;
 }

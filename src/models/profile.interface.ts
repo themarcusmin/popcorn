@@ -3,7 +3,7 @@ export interface FriendType {
   friends_count: number;
 }
 
-export type monthType =
+export type MonthType =
   | 'Jan'
   | 'Feb'
   | 'Mar'
@@ -17,9 +17,9 @@ export type monthType =
   | 'Nov'
   | 'Dec';
 
-export type dayType = '26-31' | '21-25' | '16-20' | '11-15' | '6-10' | '1-5';
-export interface heatmapDataType {
-  month: monthType;
-  day: dayType;
+export type DayType = '26-31' | '21-25' | '16-20' | '11-15' | '6-10' | '1-5';
+export interface HeatMapDataType {
+  month: MonthType;
+  day: DayType;
   value: number;
 }

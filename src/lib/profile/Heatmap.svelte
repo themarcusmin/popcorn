@@ -1,13 +1,17 @@
 <script lang="ts">
+  import { user } from '$stores/authStore';
+  import { countWatched } from '$api/watch';
+
   import * as d3 from 'd3';
   import { onMount } from 'svelte';
 
-  import type { heatmapDataType } from '$models/profile.interface';
-  import { getPreviousMonths, tooltipMessage } from '$utils/heatmap';
+  import type { HeatMapDataType } from '$models/profile.interface';
+  import { getPreviousMonths, hydrateWatchedData, tooltipMessage } from '$utils/heatmap';
 
   // Labels of row and columns for heatmap
   const HEATMAP_MONTHS = 5;
   const months = getPreviousMonths(HEATMAP_MONTHS, new Date().getMonth());
+
   const days = ['26-31', '21-25', '16-20', '11-15', '6-10', '1-5'];
 
   // Credits to d3 heatmap template: https://www.d3-graph-gallery.com/graph/heatmap_tooltip.html
@@ -38,9 +42,14 @@
 
     // Build color scale
     const myColor = d3.scaleLinear().range(['#ffe0ba', 'darkorange']).domain([1, 5]);
-    d3.json('/data/heatmap.json').then(function (data: heatmapDataType[]) {
-      data[0].value = 3;
-      data[data.length - 1].value = 5;
+    d3.json('/data/heatmap.json').then(async function (data: HeatMapDataType[]) {
+      // GET request for watched data;
+      const watchedData = await countWatched($user?.id);
+      // Remove unnecessary months from initial heatmap.json data
+      data = data.filter((initialheatmapJSON) => months.includes(initialheatmapJSON.month));
+      // Hydrate value on updated heatmap.json data
+      data = hydrateWatchedData(watchedData, data);
+
       // create a tooltip
       const tooltip = d3
         .select('#my_dataviz')
@@ -59,37 +68,40 @@
         .style('padding', '5px');
 
       // Three function that change the tooltip when user hover / move / leave a cell
-      const mouseover = function (event: MouseEvent, d: heatmapDataType) {
+      const mouseover = function (event: MouseEvent, d: HeatMapDataType) {
+        // Do not show tooltip if media count is 0
+        if (!d.value) return;
         tooltip.style('opacity', 1);
       };
 
-      const mousemove = function (event: MouseEvent, d: heatmapDataType) {
+      const mousemove = function (event: MouseEvent, d: HeatMapDataType) {
+        // if (!d.value) return;
         tooltip
           .html(tooltipMessage(d))
           .style('left', event.x / 2 + 'px')
           .style('top', event.y / 2 + 'px');
       };
-      const mouseleave = function (d: heatmapDataType) {
+      const mouseleave = function (d: HeatMapDataType) {
         tooltip.style('opacity', 0);
       };
 
       // add the squares
       svg
         .selectAll()
-        .data(data, function (d: heatmapDataType) {
+        .data(data, function (d: HeatMapDataType) {
           return d.month + ':' + d.day;
         })
         .enter()
         .append('rect')
-        .attr('x', function (d: heatmapDataType) {
+        .attr('x', function (d: HeatMapDataType) {
           return x(d.month);
         })
-        .attr('y', function (d: heatmapDataType) {
+        .attr('y', function (d: HeatMapDataType) {
           return y(d.day);
         })
         .attr('width', x.bandwidth())
         .attr('height', y.bandwidth())
-        .style('fill', function (d: heatmapDataType) {
+        .style('fill', function (d: HeatMapDataType) {
           return myColor(d.value);
         })
         .on('mouseover', mouseover)
