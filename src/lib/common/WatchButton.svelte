@@ -8,6 +8,8 @@
 
   export let media_id: MediaIDType;
   export let media_type: MediaType;
+  export let poster_path: string;
+  export let title: string;
 
   let loading = false; // Makes sure button is spinning on initial load
   let index = 0;
@@ -45,7 +47,7 @@
     // Add to watch: Add to watchlist => To Watch
     if (index === 0) {
       // index increment after then
-      addToWatch(media_type, media_id, $user.id)
+      addToWatch(media_type, media_id, $user.id, poster_path, title)
         .then(() => (index += 1))
         .catch(console.error);
     }

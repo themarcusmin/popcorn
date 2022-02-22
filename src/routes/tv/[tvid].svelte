@@ -6,15 +6,22 @@
     const tvData = await Search.getTv(tvid);
     return {
       props: {
+        tvid,
         tvData
       }
     };
   }
-  // query for isFavorite
   // filter recommendations to remove watched tvs
 </script>
 
 <script lang="ts">
+  // MEDIA DATA for child components
+  import type { MediaIDType, MediaType } from '$models/supabase.interface';
+  export let tvid: MediaIDType;
+
+  let media_type: MediaType = 'tv';
+  let media_id = tvid;
+
   import type { GenreType, VideoType } from '$models/media.interface';
   import type { TvType } from '$models/tv.interface';
 
@@ -41,9 +48,6 @@
     videos: { results: videosResults },
     recommendations: { results: recommendationsResults }
   } = tvData;
-
-  // isFavorite: query for isfavorite status
-  let isFavorite: boolean = false;
 
   // RELEASE YEAR
   function getYear(date: string): string {
@@ -89,7 +93,9 @@
   <Poster {poster_path} {backdrop_path} title={name} {release_year_tv} {number_of_seasons} />
 
   <Details
-    {isFavorite}
+    {media_id}
+    {media_type}
+    {poster_path}
     title={name}
     {release_year_tv}
     {number_of_seasons}

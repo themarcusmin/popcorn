@@ -18,10 +18,10 @@
 
 <script lang="ts">
   // MEDIA DATA for child components
-  import type { MediaIDType } from '$models/supabase.interface';
+  import type { MediaIDType, MediaType } from '$models/supabase.interface';
   export let movieid: MediaIDType;
 
-  let media_type = 'movie';
+  let media_type: MediaType = 'movie';
   let media_id = movieid;
 
   // MOVIE DATA
@@ -98,6 +98,7 @@
   <Details
     {media_id}
     {media_type}
+    {poster_path}
     {title}
     {original_title}
     {release_year}

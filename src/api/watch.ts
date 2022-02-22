@@ -33,15 +33,24 @@ export async function checkWatch(
 export async function addToWatch(
   media_type: MediaType,
   media_id: MediaIDType,
-  user_id: UserIDType
+  user_id: UserIDType,
+  poster_path: string,
+  title: string
 ): Promise<boolean> {
+  // Insert data into table 'watch'
   const { error } = await supabase
     .from('watch')
     .insert([{ media_type, media_id, user_id, status: 'towatch' }], { returning: 'minimal' });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
+
+  // Upsert data into table 'media'
+  const { error: error2 } = await supabase
+    .from('media')
+    .upsert({ media_id, media_type, poster_path, title });
+
+  if (error2) throw error2;
+
   return true;
 }
 
@@ -55,9 +64,7 @@ export async function updateToWatched(
     .update({ status: 'watched' })
     .match({ media_type, media_id, user_id });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
   return true;
 }
 
@@ -68,9 +75,8 @@ export async function removeWatched(
 ): Promise<boolean> {
   const { error } = await supabase.from('watch').delete().match({ media_type, media_id, user_id });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
+
   return true;
 }
 

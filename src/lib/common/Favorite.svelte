@@ -8,6 +8,8 @@
 
   export let media_id: MediaIDType;
   export let media_type: MediaType;
+  export let poster_path: string;
+  export let title: string;
 
   let loading = false; // Makes sure heart icon is showing spinner on initial load
   let isFavorite = false;
@@ -27,7 +29,7 @@
 
   // Handle DB updates via Supabase API call
   const handleAddToFavorites = (): void => {
-    addFavorite(media_type, media_id, $user.id)
+    addFavorite(media_type, media_id, $user.id, poster_path, title)
       .then((status: boolean) => (isFavorite = status))
       .catch(console.error);
   };

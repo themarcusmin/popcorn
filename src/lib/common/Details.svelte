@@ -1,6 +1,8 @@
 <script lang="ts">
-  export let media_type;
-  export let media_id;
+  import type { MediaIDType, MediaType } from '$models/supabase.interface';
+
+  export let media_type: MediaType;
+  export let media_id: MediaIDType;
 
   // VOTE AVERAGE
   import FaStar from 'svelte-icons/fa/FaStar.svelte';
@@ -9,6 +11,7 @@
   import Favorite from './Favorite.svelte';
   import WatchButton from './WatchButton.svelte';
 
+  export let poster_path: string;
   export let title: string;
   export let original_title: string = '';
   export let release_year: string = ''; // movie
@@ -22,7 +25,7 @@
 </script>
 
 <div class="details">
-  <Favorite {media_id} {media_type} />
+  <Favorite {media_id} {media_type} {poster_path} {title} />
   <div class="nm_details">
     <div class="nm_title">{title || original_title}</div>
     <!-- movie -->
@@ -44,7 +47,7 @@
     <div class="count">{vote_count} Votes</div>
   </div>
   <div class="genre">{all_genres || 'Genre'}</div>
-  <WatchButton {media_id} {media_type} />
+  <WatchButton {media_id} {media_type} {poster_path} {title} />
   <div class="overview">
     {overview}
   </div>
