@@ -1,15 +1,37 @@
-<script lang="ts">
-  import Stats from '$lib/profile/Stats.svelte';
-  import Heatmap from '$lib/profile/Heatmap.svelte';
+<script context="module">
+  export async function load({ page }) {
+    const { profileid } = page.params;
 
-  let profileName = 'John Wick';
+    // Query for fullname and email
+    const userData = await getUserInfo(profileid);
+    const { email, fullname, id, username } = userData;
+
+    return {
+      props: {
+        email,
+        fullname,
+        id,
+        username
+      }
+    };
+  }
+</script>
+
+<script lang="ts">
+  import { getUserInfo } from '$api/user';
+
+  export let username: string;
+  export let id: string;
+
+  import Toggler from '$lib/profile/Toggler.svelte';
+  import Heatmap from '$lib/profile/Heatmap.svelte';
 </script>
 
 <svelte:head>
   <title>
-    {`${profileName} | Profile`}
+    {`${username} | Profile`}
   </title>
 </svelte:head>
 
-<Stats genres="Comedy, Thriller, Action" watchedMovies={22} watchedTVShows={10} />
-<Heatmap />
+<Heatmap userid={id} />
+<Toggler userid={id} />

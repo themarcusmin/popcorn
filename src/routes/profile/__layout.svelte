@@ -2,36 +2,49 @@
   export async function load({ page }) {
     const { profileid } = page.params;
 
+    // Query for fullname and email
+    const userData = await getUserInfo(profileid);
+    const { email, fullname, id, username } = userData;
+
     return {
-      props: { profileid }
+      props: {
+        email,
+        fullname,
+        id,
+        username
+      }
     };
   }
 </script>
 
 <script lang="ts">
-  let profileName: string = 'John Wick';
-  let friendsCount: number = 11;
-  let favoritesCount: number = 3;
+  import { getUserInfo } from '$api/user';
 
-  export let profileid: string;
+  export let email: string;
+  export let fullname: string;
+  export let id: string;
+  export let username: string;
+  let friendsCount = 0;
+  let favoritesCount = 0;
 </script>
 
 <main>
   <div>
-    <a href={`/profile/${profileid}`}>
-      <h2>{profileName}</h2>
+    <a href={`/profile/${username}`}>
+      <h2>{username}</h2>
     </a>
     <div class="minor">
-      <a class="friends" href={`/profile/${profileid}/friends`}>
+      <a class="friends" href={`/profile/${username}/friends`}>
         <h2>{friendsCount}</h2>
         <span>Friends</span>
       </a>
-      <a class="friends" href={`/profile/${profileid}/favorites`}>
+      <a class="friends" href={`/profile/${username}/favorites`}>
         <h2>{favoritesCount}</h2>
         <span>Favorites</span>
       </a>
     </div>
-    <button>Add Friend</button>
+    <!-- FEATURE: FRIEND -->
+    <!-- <button>Add Friend</button> -->
   </div>
   <slot />
 </main>

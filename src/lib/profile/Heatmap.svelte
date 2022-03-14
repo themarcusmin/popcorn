@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { user } from '$stores/authStore';
+  export let userid: string;
+
   import { countWatched } from '$api/watch';
 
   import * as d3 from 'd3';
@@ -7,6 +8,9 @@
 
   import type { HeatMapDataType } from '$models/profile.interface';
   import { getPreviousMonths, hydrateWatchedData, tooltipMessage } from '$utils/heatmap';
+
+  // Media content count
+  let mediaConsumed = 0;
 
   // Labels of row and columns for heatmap
   const HEATMAP_MONTHS = 5;
@@ -44,7 +48,11 @@
     const myColor = d3.scaleLinear().range(['#ffe0ba', 'darkorange']).domain([1, 5]);
     d3.json('/data/heatmap.json').then(async function (data: HeatMapDataType[]) {
       // GET request for watched data;
-      const watchedData = await countWatched($user?.id);
+      const watchedData = await countWatched(userid);
+      // Increment mediaConsumed based on retrieved Data
+      for (const monthlyData of watchedData) {
+        mediaConsumed += monthlyData.media_count;
+      }
       // Remove unnecessary months from initial heatmap.json data
       data = data.filter((initialheatmapJSON) => months.includes(initialheatmapJSON.month));
       // Hydrate value on updated heatmap.json data
@@ -111,4 +119,12 @@
   });
 </script>
 
+<h4>{`${mediaConsumed} contents consumed in the last six months`}</h4>
 <div id="my_dataviz" />
+
+<style>
+  h4 {
+    padding: 0 2em;
+    margin-bottom: 0.25em;
+  }
+</style>
