@@ -69,9 +69,9 @@
     {:else}
       {#each Object.entries(watchedByMonth) as [month, media]}
         <Carousel title={month}>
-          {#each media as { poster_path, title, id, media_type }}
+          {#each media as { poster_path, title, media_id, media_type }}
             <div class="trending_item">
-              <a rel="external" href={`/${media_type}/${id}`}>
+              <a rel="external" href={`/${media_type}/${media_id}`}>
                 {#if poster_path}
                   <img src={`${IMAGE_URL}${poster_path}`} alt={title} />
                 {:else}
@@ -94,9 +94,9 @@
     {:else}
       {#each Object.entries(toWatchByMonth) as [month, media]}
         <Carousel title={month}>
-          {#each media as { poster_path, title, id, media_type }}
+          {#each media as { poster_path, title, media_id, media_type }}
             <div class="trending_item">
-              <a rel="external" href={`/${media_type}/${id}`}>
+              <a rel="external" href={`/${media_type}/${media_id}`}>
                 {#if poster_path}
                   <img src={`${IMAGE_URL}${poster_path}`} alt={title} />
                 {:else}
