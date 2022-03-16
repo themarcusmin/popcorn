@@ -3,10 +3,10 @@
 </script>
 
 <footer>
-  <p>about</p>
-  <div class="icon">
+  <a href="https://github.com/themarcusmin/" target="_blank" class="about">about</a>
+  <a href="https://github.com/themarcusmin/popcorn" target="_blank" class="icon">
     <FaGithub />
-  </div>
+  </a>
 </footer>
 
 <style>
@@ -23,9 +23,13 @@
     color: #858585;
   }
 
-  p {
-    font-size: large;
+  .about {
+    font-size: 1.5em;
     margin: 0;
+  }
+
+  .icon {
+    font-size: 1.25em;
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
