@@ -1,9 +1,9 @@
 <script context="module">
   import { Search } from '$api/api';
 
-  export async function load({ page }) {
+  export async function load({ params }) {
     // Fetch movie data
-    const { movieid } = page.params;
+    const { movieid } = params;
     const movieData = await Search.getMovie(movieid);
 
     return {

@@ -1,8 +1,8 @@
 <script context="module">
   import { Search } from '$api/api';
 
-  export async function load({ page }) {
-    const { personid } = page.params;
+  export async function load({ params }) {
+    const { personid } = params;
     const personData = await Search.getPerson(personid);
     return {
       props: {
@@ -36,11 +36,10 @@
   let isFavorite: boolean = false;
 
   // BIRTHYEAR
-  function getYear(date: string): string {
-    return date.split('-')[0];
+  function getYear(date: string | null): string {
+    return date === null ? '' : date.split('-')[0];
   }
-
-  const birthyear: string = getYear(birthday);
+  const birthyear = getYear(birthday);
 
   // CREDITS
   const credits_to_display: number = 8;

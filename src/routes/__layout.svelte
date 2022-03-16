@@ -1,8 +1,9 @@
 <script context="module">
-  export async function load({ page }) {
+  export async function load({ url }) {
     const session = supabase.auth.session();
+    const { pathname } = url;
     // Redirect if routes match /login or /register AND session exists
-    if (/^\/(login|register)$/.test(page.path) && session) {
+    if (/^\/(login|register)$/.test(pathname) && session) {
       return { redirect: '/', status: 302 };
     }
 

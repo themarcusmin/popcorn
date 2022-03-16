@@ -1,8 +1,8 @@
 <script context="module">
   import { Search } from '$api/api';
 
-  export async function load({ page }) {
-    const { tvid } = page.params;
+  export async function load({ params }) {
+    const { tvid } = params;
     const tvData = await Search.getTv(tvid);
     return {
       props: {

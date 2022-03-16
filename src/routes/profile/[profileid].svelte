@@ -1,6 +1,6 @@
 <script context="module">
-  export async function load({ page }) {
-    const { profileid } = page.params;
+  export async function load({ params }) {
+    const { profileid } = params;
 
     // Query for fullname and email
     const userData = await getUserInfo(profileid);
