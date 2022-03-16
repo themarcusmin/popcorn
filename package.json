@@ -12,8 +12,9 @@
   },
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
-    "@sveltejs/adapter-netlify": "^1.0.0-next.35",
-    "@sveltejs/kit": "next",
+    "@supabase/supabase-js": "^1.31.1",
+    "@sveltejs/adapter-vercel": "next",
+    "@sveltejs/kit": "^1.0.0-next.298",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",
@@ -21,7 +22,7 @@
     "eslint-plugin-svelte3": "^3.2.1",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
-    "svelte": "^3.42.6",
+    "svelte": "^3.46.4",
     "svelte-check": "^2.2.6",
     "svelte-preprocess": "^4.9.4",
     "tslib": "^2.3.1",
@@ -29,7 +30,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@supabase/supabase-js": "^1.30.0",
     "axios": "^0.24.0",
     "d3": "^7.3.0",
     "svelte-icons": "^2.1.0"

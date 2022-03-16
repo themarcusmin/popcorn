@@ -1,22 +1,23 @@
 <script lang="ts">
+  import type { PersonCastType } from '$models/person.interface';
   import { IMAGE_URL } from '$lib/constants';
 
-  export let top_credits;
+  export let top_credits: PersonCastType[];
 
   function getYear(date: string): string {
-    return date.split('-')[0];
+    return date?.split('-')[0];
   }
 </script>
 
 <div class="known_for">
   <h3>Known For</h3>
   <div class="media_container">
-    {#each top_credits as { id, media_type, title, release_date, poster_path }}
+    {#each top_credits as { id, media_type, name, title, release_date, first_air_date, poster_path }}
       <a href={`/${media_type}/${id}`}>
         <div class="media">
           <img src={`${IMAGE_URL}${poster_path}`} alt="title" />
-          <div>{title}</div>
-          <div class="media_year">{getYear(release_date)}</div>
+          <div>{title || name}</div>
+          <div class="media_year">{getYear(release_date) || getYear(first_air_date)}</div>
         </div>
       </a>
     {/each}

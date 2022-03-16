@@ -20,9 +20,9 @@
 <script lang="ts">
   import { getUserInfo } from '$api/user';
 
-  export let email: string;
-  export let fullname: string;
-  export let id: string;
+  // export let email: string;
+  // export let fullname: string;
+  // export let id: string;
   export let username: string;
   let friendsCount = 0;
   let favoritesCount = 0;
@@ -81,7 +81,7 @@
     margin: 0;
   }
 
-  main div button {
+  /* main div button {
     width: 60%;
     border-radius: 1em;
     margin: 2em 0 0 2em;
@@ -99,7 +99,7 @@
 
   main div button:active {
     transform: scale(0.95);
-  }
+  } */
 
   @media (min-width: 768px) and (max-width: 1024px) {
     main {
@@ -107,9 +107,9 @@
       padding-left: 3em;
     }
 
-    main div button {
+    /* main div button {
       width: 40%;
-    }
+    } */
   }
 
   @media (min-width: 1025px) {
@@ -118,8 +118,8 @@
       padding-left: 4em;
     }
 
-    main div button {
+    /* main div button {
       width: 30%;
-    }
+    } */
   }
 </style>

@@ -15,7 +15,7 @@
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    showMenu = !showMenu;
+    window.location.reload();
   }
 </script>
 
@@ -34,24 +34,26 @@
 
   <ul>
     {#if $user}
-      <li>
-        <a href="/favorites">
+      <!-- FEATURE: FAVORITES -->
+      <!-- <li>
+        <a href="/favorites" on:click={handleToggleMenu}>
           <div class="nav_icon">
             <FaRegHeart />
           </div>
           <p>Favorites</p>
         </a>
-      </li>
+      </li> -->
       <li>
-        <a href={`/profile/${$user.email}`}>
+        <a href={`/profile/${$user.email}`} on:click={handleToggleMenu}>
           <div class="nav_icon">
             <IoIosStats />
           </div>
-          <p>Stats</p>
+          <p>Profile</p>
         </a>
       </li>
-      <li>
-        <a href="/friends">
+      <!-- FEATURE: FRIENDS -->
+      <!-- <li>
+        <a href="/friends" on:click={handleToggleMenu}>
           <div class="nav_icon">
             <FaUserFriends />
           </div>
@@ -59,13 +61,13 @@
         </a>
       </li>
       <li>
-        <a href="/findfriends">
+        <a href="/findfriends" on:click={handleToggleMenu}>
           <div class="nav_icon">
             <GoSearch />
           </div>
           <p>Find Friends</p>
         </a>
-      </li>
+      </li> -->
       <li class="logout">
         <div class="auth" on:click={handleLogout}>
           <div class="nav_icon">
@@ -76,7 +78,7 @@
       </li>
     {:else}
       <li>
-        <a href="/login">
+        <a href="/login" on:click={handleToggleMenu}>
           <div class="nav_icon">
             <IoMdExit />
           </div>

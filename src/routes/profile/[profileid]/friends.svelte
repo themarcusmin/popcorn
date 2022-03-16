@@ -2,6 +2,7 @@
   export async function load({ page }) {
     const { profileid } = page.params;
 
+    // FEATURE: FRIEND
     // Get request to get friends of [profileid]
     // Example json data
     const friends = [

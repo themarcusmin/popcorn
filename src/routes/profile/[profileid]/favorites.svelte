@@ -2,6 +2,7 @@
   export async function load({ page }) {
     const { profileid } = page.params;
 
+    // FEATURE: FAVORITES
     // Get request to get favorites of [profileid]
     // Example json data
     let favorites = {

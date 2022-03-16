@@ -1,6 +1,6 @@
 <script lang="ts">
   import { IMAGE_URL } from '$lib/constants';
-  import type { CastType } from '$models/movie.interface';
+  import type { CastType } from '$models/media.interface';
   import IoIosHelpCircle from 'svelte-icons/io/IoIosHelpCircle.svelte'; /* Icon for cast without profile_path */
 
   export let cast: CastType[];
@@ -138,6 +138,10 @@
   @media (min-width: 768px) {
     .cast .cast_container > * {
       width: 50%;
+    }
+
+    .cast .cast_container .more_fewer {
+      height: 7em;
     }
   }
 </style>

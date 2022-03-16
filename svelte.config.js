@@ -2,16 +2,23 @@ import preprocess from 'svelte-preprocess';
 import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
-import adapter from '@sveltejs/adapter-netlify';
+
+import vercel from '@sveltejs/adapter-vercel';
+
 const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
   // for more information about preprocessors
   preprocess: preprocess(),
-
   kit: {
-    adapter: adapter(),
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
+    adapter: vercel({
+      trailingSlash: 'always',
+      pages: 'build',
+      assets: 'build'
+    }),
+    prerender: {
+      // This can be false if you're using a fallback (i.e. SPA mode)
+      default: false
+    },
     vite: {
       resolve: {
         alias: {
